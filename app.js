@@ -25,9 +25,27 @@ const server = http.createServer((req, res) => {
     console.log("Incomming request");
     console.log(req.method, req.url);
 
-    // Have to send a res because the browser will throw and error when it times out
-    res.end("Success!")
+    if (req.method === 'POST') {
+        let body = "";
 
+        req.on('end', () => {
+
+            // console.log(body);
+            const userName = body.split('=')[1];
+            res.end('<h1>' + userName + '</h1>');
+        })
+
+        req.on('data', (chunk) => {
+            body += chunk;
+        });
+    }
+    else {
+        res.setHeader('Content-Type', 'text/html')
+        res.end('<form method="POST"><input type="text" name="username"/><button type="submit">Create User</button></form>');
+
+    }
 });
+// Have to send a res because the browser will throw and error when it times out
+
 
 server.listen(5000);
