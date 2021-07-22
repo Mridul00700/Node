@@ -1,51 +1,56 @@
-// // Globaly avaliable function to import api's
-// const fs = require('fs');
+// // // Globaly avaliable function to import api's
+// // const fs = require('fs');
 
 
-// const userName = "Mridul";
+// // const userName = "Mridul";
 
 
-// console.log(userName);
-// // alert(userName) Not defined
+// // console.log(userName);
+// // // alert(userName) Not defined
 
-// // FS file system is async function hence requires callback
+// // // FS file system is async function hence requires callback
 
-// fs.writeFile('user-data.txt', 'Name: ' + userName, (err) => {
-//     if (err) {
-//         console.log(err);
-//         return;
+// // fs.writeFile('user-data.txt', 'Name: ' + userName, (err) => {
+// //     if (err) {
+// //         console.log(err);
+// //         return;
+// //     }
+// //     console.log("Wrote in file");
+// // });
+
+// // To create webserver
+// const http = require('http');
+
+// const server = http.createServer((req, res) => {
+//     console.log("Incomming request");
+//     console.log(req.method, req.url);
+
+//     if (req.method === 'POST') {
+//         let body = "";
+
+//         req.on('end', () => {
+
+//             // console.log(body);
+//             const userName = body.split('=')[1];
+//             res.end('<h1>' + userName + '</h1>');
+//         })
+
+//         req.on('data', (chunk) => {
+//             body += chunk;
+//         });
 //     }
-//     console.log("Wrote in file");
+//     else {
+//         res.setHeader('Content-Type', 'text/html')
+//         res.end('<form method="POST"><input type="text" name="username"/><button type="submit">Create User</button></form>');
+
+//     }
 // });
-
-// To create webserver
-const http = require('http');
-
-const server = http.createServer((req, res) => {
-    console.log("Incomming request");
-    console.log(req.method, req.url);
-
-    if (req.method === 'POST') {
-        let body = "";
-
-        req.on('end', () => {
-
-            // console.log(body);
-            const userName = body.split('=')[1];
-            res.end('<h1>' + userName + '</h1>');
-        })
-
-        req.on('data', (chunk) => {
-            body += chunk;
-        });
-    }
-    else {
-        res.setHeader('Content-Type', 'text/html')
-        res.end('<form method="POST"><input type="text" name="username"/><button type="submit">Create User</button></form>');
-
-    }
-});
-// Have to send a res because the browser will throw and error when it times out
+// // Have to send a res because the browser will throw and error when it times out
 
 
-server.listen(5000);
+// server.listen(5000);
+
+
+// Using Express --->>>
+
+const express = require('express');
