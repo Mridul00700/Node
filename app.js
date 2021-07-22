@@ -54,34 +54,41 @@
 // Using Express --->>>
 
 const express = require('express');
+const bodyParser = require('body-parser');
 // express is a function
 
 const app = express();
 
 // Middleware --->>>> functions -->
-app.use((req, res, next) => {
-    let body = "";
-    // After parsing incoming data 
-    req.on('end', () => {
-        const userName = body.split('=')[1];
-        if (userName) {
-            req.body = { name: userName };
-        }
-        next();
-    });
+// app.use((req, res, next) => {
+//     let body = "";
+//     // After parsing incoming data 
+//     req.on('end', () => {
+//         const userName = body.split('=')[1];
+//         if (userName) {
+//             req.body = { name: userName };
+//         }
+//         next();
+//     });
 
-    // Parsing data that is comming in chunks 
-    req.on('data', chunk => {
-        body += chunk;
-    })
+
+// Parsing data that is comming in chunks 
+// req.on('data', chunk => {
+//     body += chunk;
+// })
+// });
+
+// Using Body parser --->
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Runs on post request only whereas app.use runs for every request...
+app.post('/user', (req, res, next) => {
+    res.send('<h1>User : ' + req.body.username + '</h1>');
 });
 
 
-app.use((req, res, next) => {
-    if (req.body) {
-        return res.send('<h1>User : ' + req.body.name + '</h1>');
-    }
-    res.send('<form method="POST"><input type="text" name="username"/><button type="submit">Create User</button></form>');
+app.get('/', (req, res, next) => {
+    res.send('<form action="/user" method="POST"><input type="text" name="username"/><button type="submit">Create User</button></form>');
 });
 
 
