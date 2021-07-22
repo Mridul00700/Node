@@ -54,3 +54,35 @@
 // Using Express --->>>
 
 const express = require('express');
+// express is a function
+
+const app = express();
+
+// Middleware --->>>> functions -->
+app.use((req, res, next) => {
+    let body = "";
+    // After parsing incoming data 
+    req.on('end', () => {
+        const userName = body.split('=')[1];
+        if (userName) {
+            req.body = { name: userName };
+        }
+        next();
+    });
+
+    // Parsing data that is comming in chunks 
+    req.on('data', chunk => {
+        body += chunk;
+    })
+});
+
+
+app.use((req, res, next) => {
+    if (req.body) {
+        return res.send('<h1>' + req.body.name + '</h1>');
+    }
+    res.send('<form method="POST"><input type="text" name="username"/><button type="submit">Create User</button></form>');
+});
+
+
+app.listen(5000);
